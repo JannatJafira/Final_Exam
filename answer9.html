@@ -1,0 +1,112 @@
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+// Function to run shell commands
+const runCommand = (command) => {
+    try {
+        execSync(${command}, { stdio: 'inherit' });
+    } catch (error) {
+        console.error(Failed to execute ${command}, error);
+        process.exit(1);
+    }
+};
+
+// Step 1: Create a new Vue project
+const projectName = 'vueproject';
+runCommand(vue create -d ${projectName});
+
+// Step 2: Navigate to the project directory
+const projectPath = path.join(process.cwd(), projectName);
+process.chdir(projectPath);
+
+// Step 3: Modify the main template (App.vue)
+const appVuePath = path.join(projectPath, 'src', 'App.vue');
+const appVueContent = `
+<template>
+  <div id="app">
+    <header>
+      <h1>Welcome to My Vue Project</h1>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section id="home">
+        <h2>Home</h2>
+        <p>This is the home section of my Vue.js project.</p>
+      </section>
+      <section id="about">
+        <h2>About</h2>
+        <p>Learn more about this project in the about section.</p>
+      </section>
+      <section id="contact">
+        <h2>Contact</h2>
+        <p>Get in touch through the contact section.</p>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2024 My Vue Project</p>
+    </footer>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App',
+};
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+header {
+  background-color: #42b983;
+  padding: 20px;
+  color: white;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav li {
+  display: inline;
+  margin: 0 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+main {
+  margin: 20px;
+}
+
+footer {
+  margin-top: 20px;
+  color: #42b983;
+}
+</style>
+`;
+
+// Write the content to App.vue
+fs.writeFileSync(appVuePath, appVueContent, 'utf8');
+
+// Step 4: Run the project
+console.log('Project setup complete. You can now run the project with the following command:');
+console.log(cd ${projectName} && npm run serve);
+node setup-vue-project.js
